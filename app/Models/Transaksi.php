@@ -13,5 +13,5 @@ class Transaksi extends Model
     protected $keyType = 'integer';
     // use HasFactory;
     // protected $fillable = ['*'];
-    protected $fillable = ['id_paket', 'id_user', 'nama_user', 'tgl_transaksi', 'harga', 'lama', 'total'];
+    protected $fillable = ['id_paket', 'id_user', 'nama_user', 'tgl_transaksi', 'nama_paket', 'kecepatan', 'harga', 'disc', 'lama', 'total'];
 }

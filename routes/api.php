@@ -28,4 +28,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/create_paket', [App\Http\Controllers\API\PaketController::class, 'create']);
     Route::post('/update_paket', [App\Http\Controllers\API\PaketController::class, 'update']);
     Route::get('/delete_paket/{id}', [App\Http\Controllers\API\PaketController::class, 'destroy']);
+
+    Route::get('/get_all_tran', [App\Http\Controllers\API\TransaksiController::class, 'index']);
+    Route::post('/create_tran', [App\Http\Controllers\API\TransaksiController::class, 'create']);
 });
