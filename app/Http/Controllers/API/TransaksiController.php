@@ -5,6 +5,10 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Transaksi;
+use App\Models\Paket;
+use App\Models\User;
+use Carbon\Carbon;
+
 
 class TransaksiController extends Controller
 {
@@ -23,59 +27,110 @@ class TransaksiController extends Controller
         return $output;
     }
 
-    public function get_by_id_user_cust($id)
-    {
-        // var_dump(Paket::find($id));
-        // var_dump(Paket::where('id_paket', $id)->first()); 
-        // die;
+    // public function get_by_id_user_cust($id)
+    // {
+    //     // var_dump(Paket::find($id));
+    //     // var_dump(Paket::where('id_paket', $id)->first()); 
+    //     // die;
 
-        return response()->json(['error' => false, 'data' => Paket::find($id)]);
+    //     return response()->json(['error' => false, 'data' => Paket::find($id)]);
 
-        // return response()->json(['error' => false, 'data' => Paket::where('status', $id)->get()]);
-    }
+    //     // return response()->json(['error' => false, 'data' => Paket::where('status', $id)->get()]);
+    // }
 
-    public function get_by_id_paket($id)
-    {
-        // var_dump(Paket::find($id));
-        // var_dump(Paket::where('id_paket', $id)->first()); 
-        // die;
+    // public function get_by_id_paket($id)
+    // {
+    //     // var_dump(Paket::find($id));
+    //     // var_dump(Paket::where('id_paket', $id)->first()); 
+    //     // die;
 
-        return response()->json(['error' => false, 'data' => Paket::find($id)]);
+    //     return response()->json(['error' => false, 'data' => Paket::find($id)]);
 
-        // return response()->json(['error' => false, 'data' => Paket::where('status', $id)->get()]);
+    //     // return response()->json(['error' => false, 'data' => Paket::where('status', $id)->get()]);
 
-    }
+    // }
 
-    public function get_by_id_user_admin($id)
-    {
-        // var_dump(Paket::find($id));
-        // var_dump(Paket::where('id_paket', $id)->first()); 
-        // die;
+    // public function get_by_id_user_admin($id)
+    // {
+    //     // var_dump(Paket::find($id));
+    //     // var_dump(Paket::where('id_paket', $id)->first()); 
+    //     // die;
 
-        return response()->json(['error' => false, 'data' => Paket::find($id)]);
+    //     return response()->json(['error' => false, 'data' => Paket::find($id)]);
 
-        // return response()->json(['error' => false, 'data' => Paket::where('status', $id)->get()]);
+    //     // return response()->json(['error' => false, 'data' => Paket::where('status', $id)->get()]);
 
-    }
+    // }
 
     public function create(Request $request)
     {
+        // var_dump($request->all());
+        // die;
         $request->validate([
+            'id_paket' => 'required',
             'id_user' => 'required',
-            'nama_paket' => 'required',
-            'kecepatan' => 'required',
-            'harga' => 'required',
-            'disc' => 'required',
-            'status' => 'required',
+            'lama' => 'required',
+            'total' => 'required'
         ]);
 
-        $create =  Paket::create($request->all());
+        $lama = $request->lama;
+        $total = $request->total;
+
+        //get dt paket
+        $dt_paket = Paket::find($request->id_paket);
+        if ($dt_paket == null) {
+            return response()->json(['error' => true, 'msg' => 'insert data unsuccessfully - Paket does not exist']);
+        }
+        $nama_paket = $dt_paket->nama_paket;
+        $kecepatan = $dt_paket->kecepatan;
+        $harga = $dt_paket->harga;
+        $disc = $dt_paket->disc;
+
+        //get dt user customer
+        $dt_user = User::find($request->id_user);
+        if ($dt_user == null) {
+            return response()->json(['error' => true, 'msg' => 'insert data unsuccessfully - User Customer does not exist']);
+        }
+        $nama_user = $dt_user->name;
+        $email = $dt_user->email;
+        $alamat = $dt_user->alamat;
+        $no_tlp = $dt_user->no_tlp;
+
+        //current datetime
+        $mytime = Carbon::now()->setTimezone('Asia/Jakarta');
+        $tgl_transaksi = $mytime->toDateTimeString();
+
+
+        //check total
+        $jumlah_nominal = $harga * $lama;
+        $jumlah_diskon = $disc * $lama;
+        $htg_total = $jumlah_nominal - ($jumlah_nominal * ($jumlah_diskon / 100));
+        if ($htg_total != $total) {
+            return response()->json(['error' => true, 'msg' => 'insert data unsuccessfully - Total does not match']);
+        }
+
+        $insert = array(
+            'id_paket'      => $request->id_paket,
+            'id_user'       => $request->id_user,
+            'nama_user'     =>  $nama_user,
+            'email'         =>  $email,
+            'alamat'        =>  $alamat,
+            'no_tlp'        =>  $no_tlp,
+            'tgl_transaksi' => $tgl_transaksi,
+            'nama_paket'    => $nama_paket,
+            'kecepatan'     => $kecepatan,
+            'harga'         => $harga,
+            'disc'          =>  $disc,
+            'lama'          => $lama,
+            'total'         => $htg_total,
+        );
+
+        $create =  Transaksi::create($insert);
         if ($create) {
             return response()->json(['error' => false, 'msg' => 'insert data successfully']);
         } else {
             return response()->json(['error' => true, 'msg' => 'insert data unsuccessfully']);
         }
-        // return response()->json(['mahasiswa' => Paket::all()]);
     }
 
     // public function update(Request $request)

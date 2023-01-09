@@ -44,11 +44,15 @@ class AuthController extends Controller
         }
 
         $user = User::where('email', $request['email'])->firstOrFail();
-
+        if ($user->role == 1) {
+            $role = "admin";
+        } else if ($user->role == 2) {
+            $role = "customer";
+        }
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()
-            ->json(['message' => 'Hi ' . $user->name . ', welcome to home', 'access_token' => $token, 'token_type' => 'Bearer',]);
+            ->json(['message' => 'Hi ' . $user->name . ', welcome to home', 'access_token' => $token, 'role' => $role, 'token_type' => 'Bearer',]);
     }
 
     // method for user logout and delete token
