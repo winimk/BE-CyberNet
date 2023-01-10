@@ -8,6 +8,7 @@ use App\Models\Transaksi;
 use App\Models\Paket;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 
 class TransaksiController extends Controller
@@ -16,9 +17,7 @@ class TransaksiController extends Controller
     {
         // $data = Transaksi::get();
         $data = Transaksi::join('users', 'transaksi.id_user', '=', 'users.id')
-            ->get(['transaksi.*', 'users.name as nama_customer']);
-
-
+            ->get(['transaksi.*', 'users.name as nama_customer', DB::raw('(CASE WHEN users.role= "1" THEN "admin" WHEN users.role= "2" THEN "customer" ELSE "" END) as role')]);
         $output = array(
             'error' => false,
             'msg' => 'Data Berhasil Ditampilkan',
@@ -27,30 +26,26 @@ class TransaksiController extends Controller
         return $output;
     }
 
-    // public function get_by_id_user_cust($id)
-    // {
-    //     // var_dump(Paket::find($id));
-    //     // var_dump(Paket::where('id_paket', $id)->first()); 
-    //     // die;
+    public function get_by_id_user_cust($id)
+    {
+        $data = Transaksi::join('users', 'transaksi.id_user', '=', 'users.id')
+            ->where('transaksi.id_user', '=', $id)
+            ->get(['transaksi.*', 'users.name as nama_customer', DB::raw('(CASE WHEN users.role= "1" THEN "admin" WHEN users.role= "2" THEN "customer" ELSE "" END) as role')]);
 
-    //     return response()->json(['error' => false, 'data' => Paket::find($id)]);
+        return response()->json(['error' => false, 'data' => $data]);
+    }
 
-    //     // return response()->json(['error' => false, 'data' => Paket::where('status', $id)->get()]);
-    // }
+    public function get_by_id_user_admin($id)
+    {
+        $data = Transaksi::join('paket', 'transaksi.id_paket', '=', 'paket.id_paket')
+            ->join('users', 'paket.id_user', '=', 'users.id')
+            ->where('paket.id_user', '=', $id)
+            ->get(['transaksi.*', DB::raw('(CASE WHEN users.role= "1" THEN "admin" WHEN users.role= "2" THEN "customer" ELSE "" END) as role')]);
+
+        return response()->json(['error' => false, 'data' => $data]);
+    }
 
     // public function get_by_id_paket($id)
-    // {
-    //     // var_dump(Paket::find($id));
-    //     // var_dump(Paket::where('id_paket', $id)->first()); 
-    //     // die;
-
-    //     return response()->json(['error' => false, 'data' => Paket::find($id)]);
-
-    //     // return response()->json(['error' => false, 'data' => Paket::where('status', $id)->get()]);
-
-    // }
-
-    // public function get_by_id_user_admin($id)
     // {
     //     // var_dump(Paket::find($id));
     //     // var_dump(Paket::where('id_paket', $id)->first()); 

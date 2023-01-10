@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Jan 08, 2023 at 07:48 AM
+-- Generation Time: Jan 10, 2023 at 02:13 AM
 -- Server version: 5.7.34
 -- PHP Version: 7.4.21
 
@@ -122,7 +122,8 @@ CREATE TABLE `personal_access_tokens` (
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `created_at`, `updated_at`) VALUES
 (2, 'App\\Models\\User', 2, 'auth_token', '314bcdf6bfee003f05c1d559120e965c101affe4ae24fc9985637ca8f6f4cbff', '[\"*\"]', NULL, '2023-01-07 18:14:25', '2023-01-07 18:14:25'),
 (3, 'App\\Models\\User', 3, 'auth_token', '87b0076e3c7092bf517c1fe1f39f55b45a052f2875804d696c1414a9878ab2d2', '[\"*\"]', NULL, '2023-01-07 18:16:07', '2023-01-07 18:16:07'),
-(5, 'App\\Models\\User', 1, 'auth_token', '45e85de4f5e5833e446f00046227de32d3c06dbd362bd5296025a7088edb3da0', '[\"*\"]', '2023-01-08 00:24:07', '2023-01-07 22:32:42', '2023-01-08 00:24:07');
+(7, 'App\\Models\\User', 1, 'auth_token', '65664c9ede998c0e01c2e6eea5645a6951f76dfa6f09d491fe6b3eb66b4714be', '[\"*\"]', '2023-01-10 01:40:40', '2023-01-09 18:36:22', '2023-01-10 01:40:40'),
+(8, 'App\\Models\\User', 1, 'auth_token', 'f8b1a2d7ef592cf2dcf084c22b9e596834c68981a5723aef308f27a315643d70', '[\"*\"]', '2023-01-10 02:13:05', '2023-01-10 01:49:01', '2023-01-10 02:13:05');
 
 -- --------------------------------------------------------
 
@@ -135,7 +136,10 @@ CREATE TABLE `transaksi` (
   `id_paket` int(11) NOT NULL,
   `id_user` int(11) NOT NULL COMMENT 'id usernya customer (role 2)',
   `nama_user` varchar(100) NOT NULL,
-  `tgl_transaksi` date NOT NULL,
+  `email` varchar(50) NOT NULL COMMENT 'histori email',
+  `alamat` text NOT NULL COMMENT 'histori alamat',
+  `no_tlp` varchar(20) NOT NULL DEFAULT '0' COMMENT 'histori no tlp',
+  `tgl_transaksi` datetime NOT NULL,
   `nama_paket` text NOT NULL COMMENT 'histrori nama paket',
   `kecepatan` int(11) NOT NULL COMMENT 'histori kecepatan',
   `harga` double NOT NULL COMMENT 'histori harga satuan paket',
@@ -150,8 +154,13 @@ CREATE TABLE `transaksi` (
 -- Dumping data for table `transaksi`
 --
 
-INSERT INTO `transaksi` (`id_transaksi`, `id_paket`, `id_user`, `nama_user`, `tgl_transaksi`, `nama_paket`, `kecepatan`, `harga`, `disc`, `lama`, `total`, `created_at`, `updated_at`) VALUES
-(1, 1, 3, 'Muthia', '2023-01-08', 'Paket DEF', 25, 230000, 8, 1, 211600, '2023-01-08 14:24:03', '2023-01-08 07:21:56');
+INSERT INTO `transaksi` (`id_transaksi`, `id_paket`, `id_user`, `nama_user`, `email`, `alamat`, `no_tlp`, `tgl_transaksi`, `nama_paket`, `kecepatan`, `harga`, `disc`, `lama`, `total`, `created_at`, `updated_at`) VALUES
+(2, 1, 3, 'Muthia', 'muthia@gmail.com', '', '0', '2023-01-09 09:21:28', 'Paket DEF', 25, 230000, 8, 3, 524400, '2023-01-09 09:21:28', '2023-01-09 09:21:28'),
+(3, 1, 3, 'Muthia', 'muthia@gmail.com', '', '0', '2023-01-09 09:22:10', 'Paket DEF', 25, 230000, 8, 3, 524400, '2023-01-09 09:22:10', '2023-01-09 09:22:10'),
+(4, 1, 3, 'Muthia', 'muthia@gmail.com', '', '0', '2023-01-09 16:24:47', 'Paket DEF', 25, 230000, 8, 3, 524400, '2023-01-09 09:24:47', '2023-01-09 09:24:47'),
+(5, 1, 3, 'Muthia', 'muthia@gmail.com', '', '0', '2023-01-10 08:31:06', 'Paket DEF', 25, 230000, 8, 3, 524400, '2023-01-10 01:31:06', '2023-01-10 01:31:06'),
+(6, 1, 3, 'Muthia', 'muthia@gmail.com', '', '0', '2023-01-10 08:31:25', 'Paket DEF', 25, 230000, 8, 3, 524400, '2023-01-10 01:31:25', '2023-01-10 08:52:47'),
+(7, 1, 3, 'Muthia', 'muthia@gmail.com', '', '0', '2023-01-10 08:40:40', 'Paket DEF', 25, 230000, 8, 3, 524400, '2023-01-10 08:40:40', '2023-01-10 08:52:50');
 
 -- --------------------------------------------------------
 
@@ -165,7 +174,7 @@ CREATE TABLE `users` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `role` int(1) NOT NULL DEFAULT '2' COMMENT '1=admin,2=customer',
   `alamat` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `no_tlp` int(16) NOT NULL,
+  `no_tlp` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -178,8 +187,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `role`, `alamat`, `no_tlp`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Wini MK', 'wini@gmail.com', 1, '', 0, NULL, '$2y$10$UFLjtPnHoft2akynMiSe8O794yYXWePkxkGVD85MTjg9ueByI6.6.', NULL, '2023-01-07 18:12:48', '2023-01-07 18:12:48'),
-(3, 'Muthia', 'muthia@gmail.com', 2, '', 0, NULL, '$2y$10$z6bRcZJ7DO.55lG7jfuFau2a7Owosa.Ede30Omrl1Dxh0VaUgndoO', NULL, '2023-01-07 18:16:07', '2023-01-07 18:16:07');
+(1, 'Wini MK', 'wini@gmail.com', 1, '', '0', NULL, '$2y$10$UFLjtPnHoft2akynMiSe8O794yYXWePkxkGVD85MTjg9ueByI6.6.', NULL, '2023-01-07 18:12:48', '2023-01-07 18:12:48'),
+(3, 'Muthia', 'muthia@gmail.com', 2, '', '0', NULL, '$2y$10$z6bRcZJ7DO.55lG7jfuFau2a7Owosa.Ede30Omrl1Dxh0VaUgndoO', NULL, '2023-01-07 18:16:07', '2023-01-07 18:16:07');
 
 --
 -- Indexes for dumped tables
@@ -251,19 +260,19 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `paket`
 --
 ALTER TABLE `paket`
-  MODIFY `id_paket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_paket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`

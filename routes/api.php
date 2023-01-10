@@ -30,5 +30,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/delete_paket/{id}', [App\Http\Controllers\API\PaketController::class, 'destroy']);
 
     Route::get('/get_all_tran', [App\Http\Controllers\API\TransaksiController::class, 'index']);
+    Route::get('/get_tran_by_customer/{id_cust}', [App\Http\Controllers\API\TransaksiController::class, 'get_by_id_user_cust']);
+    Route::get('/get_tran_by_admin/{id_admin}', [App\Http\Controllers\API\TransaksiController::class, 'get_by_id_user_admin']);
     Route::post('/create_tran', [App\Http\Controllers\API\TransaksiController::class, 'create']);
 });
