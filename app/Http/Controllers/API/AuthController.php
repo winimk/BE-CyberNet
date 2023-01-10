@@ -45,8 +45,12 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
+        $dtuser = User::where('email', $request['email'])
+            ->select(['users.*', DB::raw('(CASE WHEN users.role= "1" THEN "admin" WHEN users.role= "2" THEN "customer" ELSE "" END) as role')])
+            ->firstOrFail();
+
         return response()
-            ->json(['error' => false, 'data' => $user, 'access_token' => $token, 'token_type' => 'Bearer',]);
+            ->json(['error' => false, 'data' => $dtuser, 'access_token' => $token, 'token_type' => 'Bearer',]);
     }
 
     public function login(Request $request)
