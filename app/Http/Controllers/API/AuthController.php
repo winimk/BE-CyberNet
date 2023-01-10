@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Auth;
 use Validator;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -43,16 +44,18 @@ class AuthController extends Controller
                 ->json(['message' => 'Unauthorized'], 401);
         }
 
-        $user = User::where('email', $request['email'])->firstOrFail();
-        if ($user->role == 1) {
-            $role = "admin";
-        } else if ($user->role == 2) {
-            $role = "customer";
-        }
+        $user = User::where('email', $request['email'])
+            ->select(['users.*', DB::raw('(CASE WHEN users.role= "1" THEN "admin" WHEN users.role= "2" THEN "customer" ELSE "" END) as role')])
+            ->firstOrFail();
+        // if ($user->role == 1) {
+        //     $role = "admin";
+        // } else if ($user->role == 2) {
+        //     $role = "customer";
+        // }
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()
-            ->json(['message' => 'Hi ' . $user->name . ', welcome to home', 'access_token' => $token, 'role' => $role, 'token_type' => 'Bearer',]);
+            ->json(['error' => false, 'message' => 'Hi ' . $user->name . ', welcome to home', 'access_token' => $token, 'data' => $user, 'token_type' => 'Bearer',]);
     }
 
     // method for user logout and delete token
