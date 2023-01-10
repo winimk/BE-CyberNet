@@ -14,18 +14,30 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
+        // header("Access-Control-Allow-Origin: *");
+        // header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+        // header('Access-Control-Allow-Credentials: true');
+        // header('Access-Control-Allow-Headers: X-Requested-With, Origin, Content-Type, X-Auth-Token, Accept');
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8'
+            'password' => 'required|string|min:8',
+            'alamat' => 'required|string',
+            'no_tlp' => 'required|numeric',
         ]);
 
+
+        // var_dump($request->all());
+        // die;
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
 
         $user = User::create([
             'name' => $request->name,
+            'alamat' => $request->alamat,
+            'no_tlp' => $request->no_tlp,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 2,
