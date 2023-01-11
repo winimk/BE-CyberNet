@@ -13,5 +13,5 @@ class Paket extends Model
     protected $keyType = 'integer';
     // use HasFactory;
     // protected $fillable = ['*'];
-    protected $fillable = ['id_user', 'nama_paket', 'kecepatan', 'harga', 'disc', 'status'];
+    protected $fillable = ['id_user', 'nama_paket', 'kecepatan', 'harga', 'disc', 'status', 'gambar_produk'];
 }
