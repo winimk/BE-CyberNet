@@ -97,9 +97,15 @@ class TransaksiController extends Controller
 
 
         //check total
-        $jumlah_nominal = $harga * $lama;
-        $jumlah_diskon = $disc * $lama;
-        $htg_total = $jumlah_nominal - ($jumlah_nominal * ($jumlah_diskon / 100));
+        //Rumus 1
+        // $jumlah_nominal = $harga * $lama;
+        // $jumlah_diskon = $disc * $lama;
+        // $htg_total = $jumlah_nominal - ($jumlah_nominal * ($jumlah_diskon / 100));
+
+        // Rumus 2
+        $harga_diskon = $harga - ($harga * ($disc / 100));
+        $htg_total = $harga_diskon * $lama;
+
         if ($htg_total != $total) {
             return response()->json(['error' => true, 'msg' => 'insert data unsuccessfully - Total does not match']);
         }
