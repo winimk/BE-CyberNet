@@ -35,17 +35,27 @@
 							"formdata": [
 								{
 									"key": "email",
-									"value": "muthia@gmail.com",
+									"value": "dhoni1233@gmail.com",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "123456789",
+									"value": "1234",
 									"type": "text"
 								},
 								{
 									"key": "name",
-									"value": "Muthia",
+									"value": "Dhoni",
+									"type": "text"
+								},
+								{
+									"key": "alamat",
+									"value": "ini alamat ku",
+									"type": "text"
+								},
+								{
+									"key": "no_tlp",
+									"value": "123123131",
 									"type": "text"
 								}
 							]
@@ -127,7 +137,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "5|tgjalNaMj0uY8yQqw1p5vmCfufKUPaBMLOBjrWjP",
+									"value": "20|3ffSnHE70oomTQ26DPglHPfQ5yt8GpmsMa6dEQF9",
 									"type": "string"
 								}
 							]
@@ -562,7 +572,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "5|tgjalNaMj0uY8yQqw1p5vmCfufKUPaBMLOBjrWjP",
+									"value": "44|PKhAaHqv8d06Qe7xFurFdUCjXcDDYwQmuJeZJhxU",
 									"type": "string"
 								}
 							]
@@ -580,6 +590,12 @@
 								"value": "application/json",
 								"type": "text",
 								"disabled": true
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
@@ -593,7 +609,7 @@
 								},
 								{
 									"key": "nama_paket",
-									"value": "Paket Imlek",
+									"value": "Paket Imlek11",
 									"type": "text"
 								},
 								{
@@ -615,6 +631,11 @@
 									"key": "status",
 									"value": "1",
 									"type": "text"
+								},
+								{
+									"key": "gambar_produk",
+									"type": "file",
+									"src": "/Users/winimuthiak/Downloads/3-IDAQU DBN WINI TEST-33.png"
 								}
 							]
 						},
