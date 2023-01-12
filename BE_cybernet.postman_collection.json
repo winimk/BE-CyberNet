@@ -572,7 +572,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "44|PKhAaHqv8d06Qe7xFurFdUCjXcDDYwQmuJeZJhxU",
+									"value": "47|0qJtA4bvzUa8ImITdTtFblsS7xfod3ldEGqqyUXr",
 									"type": "string"
 								}
 							]
@@ -609,7 +609,7 @@
 								},
 								{
 									"key": "nama_paket",
-									"value": "Paket Imlek11",
+									"value": "Paket Nyepi",
 									"type": "text"
 								},
 								{
@@ -665,7 +665,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "5|tgjalNaMj0uY8yQqw1p5vmCfufKUPaBMLOBjrWjP",
+									"value": "47|0qJtA4bvzUa8ImITdTtFblsS7xfod3ldEGqqyUXr",
 									"type": "string"
 								}
 							]
@@ -701,7 +701,7 @@
 								},
 								{
 									"key": "nama_paket",
-									"value": "Paket DEF",
+									"value": "Paket DEF 123",
 									"type": "text"
 								},
 								{
@@ -723,6 +723,11 @@
 									"key": "status",
 									"value": "1",
 									"type": "text"
+								},
+								{
+									"key": "gambar_produk",
+									"type": "file",
+									"src": "/Users/winimuthiak/Downloads/3-IDAQU DBN WINI TEST-33.png"
 								}
 							]
 						},

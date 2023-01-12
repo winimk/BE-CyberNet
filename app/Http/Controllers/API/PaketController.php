@@ -106,7 +106,6 @@ class PaketController extends Controller
 
         $update = Paket::where('id_paket', $request->id_paket)->update($data_update);
         if ($update) {
-
             @unlink("folGambarProduk/" . $image->gambar_produk);
 
             return response()->json(['error' => false, 'msg' => 'update data successfully']);
