@@ -56,12 +56,8 @@ class PaketController extends Controller
             'disc' => 'required',
             'status' => 'required',
             'gambar_produk' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            // 'gambar_produk' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
-
-        // var_dump($request->all());
-        // die;
-
 
         $profileImage = "";
         if ($image = $request->file('gambar_produk')) {
@@ -84,6 +80,7 @@ class PaketController extends Controller
 
     public function update(Request $request)
     {
+        // dump("ini api update");
         // dd($request->all());
         $request->validate([
             'id_user' => 'required',
@@ -92,8 +89,21 @@ class PaketController extends Controller
             'harga' => 'required',
             'disc' => 'required',
             'status' => 'required',
+            'gambar_produk' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-        $update = Paket::where('id_paket', $request->id_paket)->update($request->all());
+
+        $profileImage = "";
+        if ($image = $request->file('gambar_produk')) {
+            $destinationPath = 'folGambarProduk/';
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+        }
+
+        $data_update = $request->all();
+        $data_update['gambar_produk'] = $profileImage;
+
+        $update = Paket::where('id_paket', $request->id_paket)->update($data_update);
+        // $update = Paket::where('id_paket', $request->id_paket)->update($request->all());
         if ($update) {
             return response()->json(['error' => false, 'msg' => 'update data successfully']);
         } else {
@@ -103,8 +113,10 @@ class PaketController extends Controller
 
     public function destroy($id)
     {
+        $image = Paket::find($id);
         $del = Paket::where('id_paket', $id)->delete();
         if ($del) {
+            @unlink("folGambarProduk/" . $image->gambar_produk);
             return response()->json(['error' => false, 'msg' => 'delete data successfully']);
         } else {
             return response()->json(['error' => true, 'msg' => 'delete data successfully']);
