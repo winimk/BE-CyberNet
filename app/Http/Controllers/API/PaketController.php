@@ -102,9 +102,13 @@ class PaketController extends Controller
         $data_update = $request->all();
         $data_update['gambar_produk'] = $profileImage;
 
+        $image = Paket::find($request->id_paket); //get dtlama
+
         $update = Paket::where('id_paket', $request->id_paket)->update($data_update);
-        // $update = Paket::where('id_paket', $request->id_paket)->update($request->all());
         if ($update) {
+
+            @unlink("folGambarProduk/" . $image->gambar_produk);
+
             return response()->json(['error' => false, 'msg' => 'update data successfully']);
         } else {
             return response()->json(['error' => true, 'msg' => 'update data unsuccessfully']);
